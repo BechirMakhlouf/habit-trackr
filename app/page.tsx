@@ -53,6 +53,48 @@ export default function Home() {
             <li>task 8</li>
           </ul>
         </section>
+        <section className="task border dark:border-white">
+          <h2>Task Group</h2>
+          <hr />
+          <ul>
+            <li>task 1</li>
+            <li>task 2</li>
+            <li>task 3</li>
+            <li>task 4</li>
+            <li>task 5</li>
+            <li>task 6</li>
+            <li>task 7</li>
+            <li>task 8</li>
+          </ul>
+        </section>
+        <section className="task border dark:border-white">
+          <h2>Task Group</h2>
+          <hr />
+          <ul>
+            <li>task 1</li>
+            <li>task 2</li>
+            <li>task 3</li>
+            <li>task 4</li>
+            <li>task 5</li>
+            <li>task 6</li>
+            <li>task 7</li>
+            <li>task 8</li>
+          </ul>
+        </section>
+        <section className="task border dark:border-white">
+          <h2>Task Group</h2>
+          <hr />
+          <ul>
+            <li>task 1</li>
+            <li>task 2</li>
+            <li>task 3</li>
+            <li>task 4</li>
+            <li>task 5</li>
+            <li>task 6</li>
+            <li>task 7</li>
+            <li>task 8</li>
+          </ul>
+        </section>
       </div>
     </>
   );

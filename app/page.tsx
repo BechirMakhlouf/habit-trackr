@@ -1,98 +1,40 @@
+// import { randomUUID } from "crypto";
+
 import { randomUUID } from "crypto";
 
-class NoteContent {
-  textContent: string;
-  attachedFiles: string[];
+class Note {
+  id: string = randomUUID();
+  noteContent: string;
 
-  constructor(textContent: string = "", attachedFiles: string[] = []) {
-    this.textContent = textContent;
-    this.attachedFiles = attachedFiles;
+  constructor(noteContent: string = "") {
+    this.noteContent = noteContent
   }
 }
 
-// class Note {
-//   readonly taskId: string = randomUUID();
-//   readonly creationDate: Date = new Date();
-//   private description: string;
-//   private attachedFiles: string[];
-//   lastEdited: Date;
-//
-//   constructor(description: string, attachedFiles: string[] = []) {
-//     this.description = description;
-//     this.creationDate = new Date();
-//     this.lastEdited = new Date();
-//   }
-//
-//   set description(newDescription: string) {
-//
-//     this.lastEdited = new Date()
-//     this.description = newDescription
-//   }
-// }
-//
-// const Notes = new Map<string, Note>();
-//
-// const myNote = new Note(new NoteContent());
-//
+const Notes = new Map<string, Note>()
+
+Notes.set("hello", new Note("world"))
+
+console.log(JSON.stringify(Object.fromEntries(Notes)))
 export default function Home() {
   return (
     <>
       <h1>habit Trackr</h1>
       <div className="habits">
-        <section className="task border dark:border-white">
+        <section className="max-w-2xl text-center border dark:border-white">
           <h2>Task Group</h2>
           <hr />
+          DragDro 
           <ul>
-            <li>task 1</li>
-            <li>task 2</li>
-            <li>task 3</li>
-            <li>task 4</li>
-            <li>task 5</li>
-            <li>task 6</li>
-            <li>task 7</li>
-            <li>task 8</li>
-          </ul>
-        </section>
-        <section className="task border dark:border-white">
-          <h2>Task Group</h2>
-          <hr />
-          <ul>
-            <li>task 1</li>
-            <li>task 2</li>
-            <li>task 3</li>
-            <li>task 4</li>
-            <li>task 5</li>
-            <li>task 6</li>
-            <li>task 7</li>
-            <li>task 8</li>
-          </ul>
-        </section>
-        <section className="task border dark:border-white">
-          <h2>Task Group</h2>
-          <hr />
-          <ul>
-            <li>task 1</li>
-            <li>task 2</li>
-            <li>task 3</li>
-            <li>task 4</li>
-            <li>task 5</li>
-            <li>task 6</li>
-            <li>task 7</li>
-            <li>task 8</li>
-          </ul>
-        </section>
-        <section className="task border dark:border-white">
-          <h2>Task Group</h2>
-          <hr />
-          <ul>
-            <li>task 1</li>
-            <li>task 2</li>
-            <li>task 3</li>
-            <li>task 4</li>
-            <li>task 5</li>
-            <li>task 6</li>
-            <li>task 7</li>
-            <li>task 8</li>
+            
+            <li className="border rounded m-2">task 1</li>
+            <li className="border rounded m-2">task 2</li>
+            <li className="border rounded m-2">task 3</li>
+            <li className="border rounded m-2">task 4</li>
+            <li className="border rounded m-2">task 5</li>
+            <li className="border rounded m-2">task 6</li>
+            <li className="border rounded m-2">task 7</li>
+            <li className="border rounded m-2">task 8</li>
           </ul>
         </section>
       </div>

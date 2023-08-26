@@ -26,6 +26,7 @@ interface noteColumn {
   notesID: UUID[]
 }
 
+//
 const notesState = {
   noteColumns: [],
 };

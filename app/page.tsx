@@ -1,6 +1,7 @@
 // import { randomUUID } from "crypto";
 
 import { randomUUID, UUID } from "crypto";
+import { Draggable, DragDropContext } from "react-beautiful-dnd";
 
 class Note {
   id: string = randomUUID();
@@ -25,7 +26,6 @@ interface noteColumn {
   title: string,
   notesID: UUID[]
 }
-
 //
 const notesState = {
   noteColumns: [],
@@ -41,7 +41,7 @@ export default function Home() {
         <section className="max-w-2xl text-center border dark:border-white">
           <h2>Task Group</h2>
           <hr />
-          DragDro
+        
           <ul>
             <li className="border rounded m-2">task 1</li>
           </ul>

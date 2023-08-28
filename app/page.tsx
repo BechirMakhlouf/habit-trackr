@@ -1,7 +1,7 @@
 // import { randomUUID } from "crypto";
 
 import { randomUUID, UUID } from "crypto";
-import { Draggable, DragDropContext } from "react-beautiful-dnd";
+import { Droppable, Draggable, DragDropContext } from "react-beautiful-dnd";
 
 class Note {
   id: string = randomUUID();
@@ -38,6 +38,9 @@ export default function Home() {
     <>
       <h1>habit Trackr</h1>
       <div className="habits">
+        <Droppable>
+
+        </Droppable>
         <section className="max-w-2xl text-center border dark:border-white">
           <h2>Task Group</h2>
           <hr />

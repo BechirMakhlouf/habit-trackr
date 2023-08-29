@@ -1,16 +1,16 @@
+"use client";
 // import { randomUUID } from "crypto";
 
 import { randomUUID, UUID } from "crypto";
-import { Droppable, Draggable, DragDropContext } from "react-beautiful-dnd";
-
-class Note {
-  id: string = randomUUID();
-  noteContent: string;
-
-  constructor(noteContent: string = "") {
-    this.noteContent = noteContent;
-  }
-}
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+// class Note {
+//   id: string = randomUUID();
+//   noteContent: string;
+//
+//   constructor(noteContent: string = "") {
+//     this.noteContent = noteContent;
+//   }
+// }
 
 // class notesState {
 //   Notes: Map<string, Note>
@@ -20,36 +20,53 @@ class Note {
 //   }
 // }
 
-const Notes = new Map<string, Note>();
-
-interface noteColumn {
-  title: string,
-  notesID: UUID[]
-}
+// const Notes = new Map<string, Note>();
 //
-const notesState = {
-  noteColumns: [],
-};
-
-Notes.set("hello", new Note("world"));
-
+// interface noteColumn {
+//   title: string;
+//   notesID: UUID[];
+// }
+// //
+// const notesState = {
+//   noteColumns: [],
+// };
+//
+// Notes.set("hello", new Note("world"));
+//
 export default function Home() {
   return (
     <>
       <h1>habit Trackr</h1>
-      <div className="habits">
-        <Droppable>
+      <DragDropContext onDragEnd={() => console.log("dropped")}>
+        <Droppable droppableId="sdlkfjsdkl">
+          {(provided) => (
+            <div className="habits">
+              <section className="max-w-2xl text-center border dark:border-white">
+                <h2>Task Group</h2>
+                <hr />
 
+                <ul>
+                  <Draggable>
+                    <li className="border rounded m-2">task 1</li>
+                  </Draggable>
+                  <Draggable>
+                    <li className="border rounded m-2">task 2</li>
+                  </Draggable>
+                  <Draggable>
+                    <li className="border rounded m-2">task 3</li>
+                  </Draggable>
+                  <Draggable>
+                    <li className="border rounded m-2">task 4</li>
+                  </Draggable>
+                  <Draggable>
+                    <li className="border rounded m-2">task 5</li>
+                  </Draggable>
+                </ul>
+              </section>
+            </div>
+          )}
         </Droppable>
-        <section className="max-w-2xl text-center border dark:border-white">
-          <h2>Task Group</h2>
-          <hr />
-        
-          <ul>
-            <li className="border rounded m-2">task 1</li>
-          </ul>
-        </section>
-      </div>
+      </DragDropContext>
     </>
   );
 }

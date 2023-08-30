@@ -46,21 +46,6 @@ export default function Home() {
                 <hr />
 
                 <ul>
-                  <Draggable>
-                    <li className="border rounded m-2">task 1</li>
-                  </Draggable>
-                  <Draggable>
-                    <li className="border rounded m-2">task 2</li>
-                  </Draggable>
-                  <Draggable>
-                    <li className="border rounded m-2">task 3</li>
-                  </Draggable>
-                  <Draggable>
-                    <li className="border rounded m-2">task 4</li>
-                  </Draggable>
-                  <Draggable>
-                    <li className="border rounded m-2">task 5</li>
-                  </Draggable>
                 </ul>
               </section>
             </div>

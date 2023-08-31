@@ -1,57 +1,88 @@
 "use client";
-// import { randomUUID } from "crypto";
 
+import { useState } from "react";
 import { randomUUID, UUID } from "crypto";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// class Note {
-//   id: string = randomUUID();
-//   noteContent: string;
-//
-//   constructor(noteContent: string = "") {
-//     this.noteContent = noteContent;
-//   }
-// }
+import NoteItem from "@/components/Note";
 
-// class notesState {
-//   Notes: Map<string, Note>
-//
-//   constructor(Notes) {
-//
-//   }
-// }
+export class Note {
+  id: UUID = randomUUID();
+  noteContent: string;
+
+  constructor(noteContent?: string) {
+    this.noteContent = noteContent || "";
+  }
+}
+
+export class NoteColumn {
+  id: UUID = randomUUID();
+  name: string;
+  notes: Note[];
+
+  constructor(name: string, notes?: Note[]) {
+    this.name = name;
+    this.notes = notes || [];
+  }
+}
+
+const Notes = new Map<UUID, string>();
+
+class notesState {
+  allNotes: Map<UUID, Note> = new Map<UUID, Note>();
+  noteColumns: NoteColumn[];
+
+  constructor(noteColumns?: NoteColumn[]) {
+    this.noteColumns = noteColumns || [];
+  }
+}
 
 // const Notes = new Map<string, Note>();
-//
+
 // interface noteColumn {
 //   title: string;
 //   notesID: UUID[];
 // }
-// //
+
 // const notesState = {
 //   noteColumns: [],
 // };
-//
+
 // Notes.set("hello", new Note("world"));
-//
+
+function getNotesState() {
+  return new notesState();
+}
+
 export default function Home() {
+  const [notesState, setNotesState] = useState(getNotesState());
+
   return (
     <>
       <h1>habit Trackr</h1>
-      <DragDropContext onDragEnd={() => console.log("dropped")}>
-        <Droppable droppableId="sdlkfjsdkl">
-          {(provided) => (
-            <div className="habits">
-              <section className="max-w-2xl text-center border dark:border-white">
-                <h2>Task Group</h2>
-                <hr />
 
-                <ul>
-                </ul>
-              </section>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className="border border-blue rounded flex mx-20">
+        <div className=" w-full m-2 flex-col rounded border border-blue">
+          <h3 className="w-full text-center">column name</h3>
+          <NoteItem note={new Note()}/>
+          <hr />
+          <p className="text-gray-100">add note..</p>
+        </div>
+        <div className="w-full m-2 flex-col rounded border border-blue">
+          <NoteItem />
+          <p className="border border-blue rounded m-2">note content</p>
+        </div>
+        <div className="w-full m-2 flex-col rounded border border-blue">
+          <h3 className="w-full text-center">column name</h3>
+          <NoteItem />
+          <p className="border border-blue rounded m-2">note content</p>
+        </div>
+        <div className="w-full m-2 flex-col rounded border border-blue">
+          <h3 className="w-full text-center">column name</h3>
+          <NoteItem />
+          <p className="border border-blue rounded m-2">note content</p>
+        </div>
+      </div>
     </>
   );
 }
+
+export { Notes };

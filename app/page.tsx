@@ -42,21 +42,28 @@ export default function Home() {
     <>
       <h1>habit Trackr</h1>
 
-      <DndContext>
+      <DndContext
+        onDragStart={(event) => {
+          console.log(event);
+        }}
+        onDragEnd={(event) => {
+          console.log(event);
+        }}
+      >
         <div className="border border-blue rounded flex mx-20">
-          <NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Note Col 1")}>
             <NoteItem note={new Note()} />
           </NoteColumnItem>
 
-          <NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 2")}>
             <NoteItem note={new Note()} />
           </NoteColumnItem>
 
-          <NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 3")}>
             <NoteItem note={new Note()} />
           </NoteColumnItem>
 
-          <NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 4")}>
             <NoteItem note={new Note()} />
           </NoteColumnItem>
         </div>

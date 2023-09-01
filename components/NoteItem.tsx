@@ -1,10 +1,11 @@
+"use client";
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
-import { randomUUID, UUID } from "crypto";
-import { useDraggable} from "@dnd-kit/core";
+import { UUID } from "crypto";
+import { useDraggable } from "@dnd-kit/core";
 
 export class Note {
-  id: UUID = uuidV4() as UUID;
+  readonly id: UUID = uuidV4() as UUID;
   noteContent: string;
 
   constructor(noteContent?: string) {
@@ -12,13 +13,28 @@ export class Note {
   }
 }
 
-export default function NoteItem(props: { note?: Note }) {
+export default function NoteItem(props: { note: Note }) {
+  const [note, setNote] = useState(props.note);
   const [isModifiable, setIsModifiable] = useState(() => false);
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: note.id,
+  });
+
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } : undefined;
+
   props.note ||= new Note();
 
   return (
-    <p className="border border-blue rounded m-2 p-2 text-">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className="border border-blue rounded m-2 p-2 text-sm"
+    >
       {props.note.noteContent || "note content here.."}
-    </p>
+    </div>
   );
 }

@@ -1,28 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { randomUUID, UUID } from "crypto";
-import NoteItem from "@/components/Note";
+import { DndContext } from "@dnd-kit/core";
+import { UUID } from "crypto";
 
-export class Note {
-  id: UUID = randomUUID();
-  noteContent: string;
-
-  constructor(noteContent?: string) {
-    this.noteContent = noteContent || "";
-  }
-}
-
-export class NoteColumn {
-  id: UUID = randomUUID();
-  name: string;
-  notes: Note[];
-
-  constructor(name: string, notes?: Note[]) {
-    this.name = name;
-    this.notes = notes || [];
-  }
-}
+import NoteItem, { Note } from "@/components/NoteItem";
+import NoteColumnItem, { NoteColumn } from "@/components/NoteColumnItem";
 
 const Notes = new Map<UUID, string>();
 
@@ -59,28 +42,25 @@ export default function Home() {
     <>
       <h1>habit Trackr</h1>
 
-      <div className="border border-blue rounded flex mx-20">
-        <div className=" w-full m-2 flex-col rounded border border-blue">
-          <h3 className="w-full text-center">column name</h3>
-          <NoteItem note={new Note()}/>
-          <hr />
-          <p className="text-gray-100">add note..</p>
+      <DndContext>
+        <div className="border border-blue rounded flex mx-20">
+          <NoteColumnItem>
+            <NoteItem note={new Note()} />
+          </NoteColumnItem>
+
+          <NoteColumnItem>
+            <NoteItem note={new Note()} />
+          </NoteColumnItem>
+
+          <NoteColumnItem>
+            <NoteItem note={new Note()} />
+          </NoteColumnItem>
+
+          <NoteColumnItem>
+            <NoteItem note={new Note()} />
+          </NoteColumnItem>
         </div>
-        <div className="w-full m-2 flex-col rounded border border-blue">
-          <NoteItem />
-          <p className="border border-blue rounded m-2">note content</p>
-        </div>
-        <div className="w-full m-2 flex-col rounded border border-blue">
-          <h3 className="w-full text-center">column name</h3>
-          <NoteItem />
-          <p className="border border-blue rounded m-2">note content</p>
-        </div>
-        <div className="w-full m-2 flex-col rounded border border-blue">
-          <h3 className="w-full text-center">column name</h3>
-          <NoteItem />
-          <p className="border border-blue rounded m-2">note content</p>
-        </div>
-      </div>
+      </DndContext>
     </>
   );
 }

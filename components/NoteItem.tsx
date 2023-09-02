@@ -20,16 +20,11 @@ export default function NoteItem(props: { note: Note }) {
     id: note.id,
   });
 
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
-
   props.note ||= new Note();
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
       {...listeners}
       {...attributes}
       className="border border-blue rounded m-2 p-2 text-sm"

@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { UUID } from "crypto";
-import { useDraggable } from "@dnd-kit/core";
+import { UniqueIdentifier, useDraggable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export class Note {
   readonly id: UUID = uuidV4() as UUID;
@@ -13,18 +15,23 @@ export class Note {
   }
 }
 
-export default function NoteItem(props: { note: Note }) {
+export default function NoteItem(props: { note: Note}) {
   const [note, setNote] = useState(props.note);
   const [isModifiable, setIsModifiable] = useState(() => false);
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: note.id,
   });
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    CSSTransition,
+  }
   props.note ||= new Note();
 
   return (
     <div
       ref={setNodeRef}
+      style={style}
       {...listeners}
       {...attributes}
       className="border border-blue rounded m-2 p-2 text-sm"

@@ -1,11 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { UUID } from "crypto";
 
-import NoteItem, { Note } from "@/components/NoteItem";
+import { Note } from "@/components/NoteItem";
 import NoteColumnItem, { NoteColumn } from "@/components/NoteColumnItem";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 const Notes = new Map<UUID, string>();
 
@@ -37,12 +44,18 @@ function getNotesState() {
 
 export default function Home() {
   const [notesState, setNotesState] = useState(getNotesState());
-
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
   return (
     <>
       <h1>habit Trackr</h1>
 
       <DndContext
+        sensors={sensors}
         onDragStart={(event) => {
           console.log(event);
         }}
@@ -50,22 +63,14 @@ export default function Home() {
           console.log(event);
         }}
       >
-        <div className="border border-blue rounded flex mx-20">
-          <NoteColumnItem noteColumn={new NoteColumn("Note Col 1")}>
-            <NoteItem note={new Note()} />
-          </NoteColumnItem>
+        <div className="border border-blue rounded flex p-6 mx-20">
+          <NoteColumnItem noteColumn={new NoteColumn("Note Col 1")} />
 
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 2")}>
-            <NoteItem note={new Note()} />
-          </NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 2")} />
 
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 3")}>
-            <NoteItem note={new Note()} />
-          </NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 3")} />
 
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 4")}>
-            <NoteItem note={new Note()} />
-          </NoteColumnItem>
+          <NoteColumnItem noteColumn={new NoteColumn("Not Col 4")} />
         </div>
       </DndContext>
     </>

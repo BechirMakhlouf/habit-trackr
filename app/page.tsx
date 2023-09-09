@@ -12,7 +12,10 @@ import { UUID } from "crypto";
 
 import { Note } from "@/components/NoteItem";
 import NoteColumnItem, { NoteColumn } from "@/components/NoteColumnItem";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 
 const Notes = new Map<UUID, string>();
 
@@ -39,7 +42,36 @@ class notesState {
 // Notes.set("hello", new Note("world"));
 
 function getNotesState() {
-  return new notesState();
+  return new notesState([
+    new NoteColumn("1"),
+    new NoteColumn("2"),
+    new NoteColumn("3"),
+    new NoteColumn("4"),
+  ]);
+}
+
+function handleDragEnd(event: DragOverEvent) {
+  const { active, over } = event;
+
+  if (active.id === over?.id) {
+    return;
+  }
+
+  setNoteColumn(
+    () => {
+      const oldIndex = noteColumn.notes.findIndex((note) =>
+        active.id === note.id
+      );
+      const newIndex = noteColumn.notes.findIndex((note) =>
+        over?.id === note.id
+      );
+
+      return new NoteColumn(
+        noteColumn.name,
+        arrayMove(noteColumn.notes, oldIndex, newIndex),
+      );
+    },
+  );
 }
 
 export default function Home() {
@@ -56,21 +88,12 @@ export default function Home() {
 
       <DndContext
         sensors={sensors}
-        onDragStart={(event) => {
-          console.log(event);
-        }}
-        onDragEnd={(event) => {
-          console.log(event);
-        }}
+        onDragEnd={handleDragEnd}
       >
-        <div className="border border-blue rounded flex p-6 mx-20">
-          <NoteColumnItem noteColumn={new NoteColumn("Note Col 1")} />
-
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 2")} />
-
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 3")} />
-
-          <NoteColumnItem noteColumn={new NoteColumn("Not Col 4")} />
+        <div className="border border-blue rounded-xl flex p-6 mx-20">
+          {notesState.noteColumns.map((noteColumn) => (
+            <NoteColumnItem noteColumn={noteColumn} />
+          ))}
         </div>
       </DndContext>
     </>

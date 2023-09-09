@@ -7,6 +7,7 @@ import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
+  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
@@ -14,9 +15,14 @@ import {
   DragOverEvent,
   KeyboardSensor,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import {
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 export class NoteColumn {
   readonly id: UUID = uuidV4() as UUID;
   name: string;
@@ -34,36 +40,16 @@ interface NoteColumnProps {
 
 const NoteColumnItem = (props: NoteColumnProps) => {
   const [noteColumn, setNoteColumn] = useState(props.noteColumn);
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
+  const { setNodeRef } = useDroppable({
+    id: props.noteColumn.id,
+  });
 
-  function handleDragEnd(event: DragOverEvent) {
-    const { active, over } = event;
-
-    if (active.id === over?.id) {
-      return;
-    }
-
-    setNoteColumn(
-      () => {
-        const oldIndex = noteColumn.notes.findIndex((note) =>
-          active.id === note.id
-        );
-        const newIndex = noteColumn.notes.findIndex((note) =>
-          over?.id === note.id
-        );
-
-        return new NoteColumn(
-          noteColumn.name,
-          arrayMove(noteColumn.notes, oldIndex, newIndex),
-        );
-      },
-    );
-  }
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor),
+  //   useSensor(KeyboardSensor, {
+  //     coordinateGetter: sortableKeyboardCoordinates,
+  //   }),
+  // );
 
   function handleAddNote() {
     const updatedNoteColumn = new NoteColumn(noteColumn.name, [
@@ -74,23 +60,24 @@ const NoteColumnItem = (props: NoteColumnProps) => {
   }
 
   return (
-    <div className=" w-full m-2 flex-col rounded border border-blue">
+    <div
+      ref={setNodeRef}
+      className=" w-full m-2 flex-col rounded border border-blue"
+    >
       <h3 className="w-full text-center">
         {props.noteColumn?.name || "Note Column"}
       </h3>
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <SortableContext
-          items={noteColumn.notes}
-          strategy={verticalListSortingStrategy}
-        >
-          {noteColumn?.notes.map((note) => (
-            <NoteItem
-              note={note}
-              key={note.id}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
+      <SortableContext
+        items={noteColumn.notes}
+        strategy={verticalListSortingStrategy}
+      >
+        {noteColumn?.notes.map((note) => (
+          <NoteItem
+            note={note}
+            key={note.id}
+          />
+        ))}
+      </SortableContext>
 
       <hr />
 

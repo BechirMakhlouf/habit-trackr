@@ -15,7 +15,7 @@ export class Note {
   }
 }
 
-export default function NoteItem(props: { note: Note}) {
+export default function NoteItem(props: { note: Note; dragHandle?: boolean }) {
   const [note, setNote] = useState(props.note);
   const [isModifiable, setIsModifiable] = useState(() => false);
   const { attributes, listeners, setNodeRef, transform } = useSortable({
@@ -25,18 +25,18 @@ export default function NoteItem(props: { note: Note}) {
   const style = {
     transform: CSS.Transform.toString(transform),
     CSSTransition,
-  }
+  };
   props.note ||= new Note();
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      {...listeners}
       {...attributes}
       className="border border-blue rounded m-2 p-2 text-sm"
     >
       {props.note.noteContent || "note content here.."}
+      <h3 {...listeners}>handle</h3>
     </div>
   );
 }
